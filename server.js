@@ -33,6 +33,10 @@ app.post("/api/exercise/new-user", async (req, res) => {
         console.log(err)
     }
 });
+app.get("/api/exercise/users", async (req, res) => {
+    const users = await User.find();
+    return res.send(users);
+});
 
 app.post("/api/exercise/add", async (req, res) => {
     const {userId, description, duration, date} = req.body;
@@ -50,6 +54,12 @@ app.post("/api/exercise/add", async (req, res) => {
     } catch (err) {
         console.log(err)
     }
+});
+
+app.get("/api/exercise/log", async (req, res) => {
+    const userId = req.body.userId;
+    const tasks = await Task.find({"userId": userId}).select('-__v');
+    return res.send(tasks);
 });
 
 // Not found middleware
